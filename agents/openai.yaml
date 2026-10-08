@@ -1,0 +1,6 @@
+interface:
+  display_name: "Pi Worker"
+  short_description: "Delegate bounded coding work to a Pi worker"
+  default_prompt: "Use $pi-worker to delegate this bounded coding task to a Pi worker, then review the result."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,46 @@
+{
+  "name": "pi-worker-skill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bounded worker delegation for Pi, with model-gated skill discovery and main-agent review.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plucury/pi-worker-kit.git"
+  },
+  "homepage": "https://github.com/plucury/pi-worker-kit#readme",
+  "bugs": {
+    "url": "https://github.com/plucury/pi-worker-kit/issues"
+  },
+  "keywords": [
+    "pi-package"
+  ],
+  "files": [
+    "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SKILL.md",
+    "extensions/*.ts",
+    "scripts/*.py",
+    "references/*.md",
+    "agents/*.yaml",
+    "examples/profiles.example.json"
+  ],
+  "pi": {
+    "extensions": [
+      "extensions/profile-gated-skills.ts"
+    ],
+    "skills": []
+  },
+  "scripts": {
+    "test": "node --test tests/test_gate.mjs"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "devDependencies": {
+    "jiti": "2.7.0"
+  }
+}

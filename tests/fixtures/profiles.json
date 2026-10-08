@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "profiles": [
+    {
+      "id": "standard-glm",
+      "provider": "test-provider-a",
+      "model": "test-model-a",
+      "enabled": true,
+      "roles": ["main", "sub"]
+    },
+    {
+      "id": "standard-deepseek",
+      "provider": "test-provider-a",
+      "model": "test-model-b",
+      "enabled": true,
+      "roles": ["sub"]
+    },
+    {
+      "id": "standard-glm-zai",
+      "provider": "test-provider-retired",
+      "model": "test-model-a",
+      "enabled": false,
+      "roles": ["sub"]
+    },
+    {
+      "id": "standard-minimax",
+      "provider": "test-provider-b",
+      "model": "test-model-c",
+      "enabled": true,
+      "roles": ["sub"]
+    },
+    {
+      "id": "standard-mimo",
+      "provider": "test-provider-a",
+      "model": "test-model-d",
+      "enabled": true,
+      "roles": ["sub"]
+    },
+    {
+      "id": "test-main-only",
+      "provider": "test-provider-main",
+      "model": "test-model-main",
+      "enabled": true,
+      "roles": ["main"]
+    }
+  ],
+  "record_retention_days": 14
+}

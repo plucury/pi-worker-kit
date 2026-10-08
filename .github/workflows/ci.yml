@@ -1,0 +1,66 @@
+name: CI
+
+# Offline, deterministic checks only: no provider API calls, no model requests,
+# no credential use. Tests use fake Pi/broker subprocesses and temp dirs.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test (${{ matrix.os }}, py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+        python-version:
+          - "3.11"
+    env:
+      # Keep CI hermetic: do not autoload third-party pytest plugins.
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+      PI_OFFLINE: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dev requirements
+        run: python -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
+
+      # Development tooling only (jiti for node:test gate loading). CI may
+      # fetch tooling; it never runs model/provider tests. `npm ci` installs
+      # from the committed package-lock.json (frozen, deterministic); the
+      # matching --legacy-peer-deps flag is intentional so npm does not try to
+      # resolve/install the host SDK peer `@earendil-works/pi-coding-agent: "*"`,
+      # which this extension uses from Pi rather than installing another copy.
+      - name: Install JS development dependencies
+        run: npm ci --legacy-peer-deps --ignore-scripts --no-audit --no-fund
+
+      - name: Byte-compile sources
+        run: python -m compileall -q scripts tests
+
+      - name: Ruff critical checks
+        run: ruff check scripts tests
+
+      - name: Run test suite
+        run: python -m pytest -q
+
+      - name: Run gate extension tests
+        run: npm test
+
+      - name: Offline npm pack inspection
+        run: npm pack --dry-run --json

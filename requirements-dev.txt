@@ -1,0 +1,5 @@
+# Development/test tooling only. The skill runtime uses the Python standard
+# library; these are not runtime dependencies of the package.
+# pytest >= 9 provides unittest-style subtests in core (no pytest-subtests).
+pytest>=9,<10
+ruff>=0.14,<1

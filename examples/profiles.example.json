@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "profiles": [
+    {
+      "id": "my-main",
+      "provider": "your-provider",
+      "model": "your-main-model",
+      "enabled": false,
+      "roles": ["main", "sub"]
+    },
+    {
+      "id": "my-worker",
+      "provider": "your-provider",
+      "model": "your-sub-model",
+      "enabled": false,
+      "roles": ["sub"]
+    }
+  ]
+}

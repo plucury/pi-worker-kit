@@ -1,0 +1,51 @@
+# Python bytecode and caches
+__pycache__/
+*.pyc
+*.py[cod]
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Worker runtime state and receipts (never commit)
+markers/
+worker-run-records/
+terminal/
+receipts/
+logs/
+pids/
+contracts/
+
+# Private local configuration and credentials
+auth.json
+models.json
+settings.json
+models-store.json
+settings.local.json
+profiles.local.json
+profiles.json
+.env
+.env.*
+!.env.example
+
+# Private profiles.json is ignored everywhere, but the tracked test fixture
+# and the documented example must stay visible.
+!tests/fixtures/profiles.json
+!examples/profiles.example.json
+
+# Packaging and build output
+node_modules/
+*.tgz
+build/
+dist/
+coverage/
+temp/
+htmlcov/
+.coverage
+.coverage.*
+
+# OS noise
+.DS_Store
+Thumbs.db
