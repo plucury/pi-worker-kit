@@ -95,6 +95,12 @@ regardless of which model executes it.
   lifecycle, or three or more layers: name semantics, edge cases, and the exact
   checks. If meaningful judgment still hides inside a package, keep that
   decision yourself and delegate only the verifiable remainder.
+- Use a short, self-contained six-field contract: goal; scope + baseline;
+  main-selected checks; constraints/non-goals; budget; deliverable. Rework states
+  the fix and necessary retained facts, not repeated background. Expand only
+  for necessary protocol, lifecycle, or security semantics; the runner does not
+  supply task context. Template:
+  [references/worker-efficiency.md](references/worker-efficiency.md#5-the-compact-six-field-contract-and-the-short-rework-contract).
 - On review, delegate the bounded fix again instead of editing the worker's
   deliverable yourself. Only an explicitly authorized, tiny emergency edit stays
   with you, recorded as `--main-rework main_rework` on the review event.
@@ -348,6 +354,15 @@ through periodic bounded reconciliation when a notification or a runner never
 arrives.
 
 ## Review and records
+
+Match the receipt, inventory all changes against the pre-launch snapshot,
+run trusted focused checks, then review every changed hunk even when green.
+Inspect unsafe execution paths before running checks; deepen on failures,
+risk-critical changes, or unresolved semantics. Read bounded context rather
+than whole files again, and keep full logs private outside the repo. Reuse
+main-run evidence only when its relevant inputs are unchanged; passing tests
+never auto-accept. Full order:
+[references/worker-efficiency.md](references/worker-efficiency.md#6-independent-review-order-cheap-without-losing-acceptance).
 
 Review the diff and the focused-test evidence, run your own integration checks,
 then append the verdict with the `run_id` from the receipt:

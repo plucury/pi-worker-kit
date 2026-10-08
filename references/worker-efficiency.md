@@ -254,6 +254,76 @@ unknown; the block appears only when at least one value is supplied.
   never claims the feature is logically complete or first-pass clean, because
   phases declare no dependency graph.
 
+## 5. The compact six-field contract (and the short rework contract)
+
+Use the six-field template below for initial and rework contracts. Keep the
+necessary task facts self-contained: a fresh worker has no prior context. Only
+intercom mode appends the communication appendix, not task background.
+Details live here; SKILL.md and the intercom guide link here rather than repeat
+them. Main selects focused checks; do not request an unneeded full suite.
+
+Copyable contract template (placeholders only — no real ids, hosts, paths, or
+configuration); fill each `<>` and keep every launch to one short block:
+
+```text
+1. Goal: <one narrow outcome>
+2. Scope+baseline: <exact paths/commands allowed> ; baseline <pinned HEAD or snapshot id>
+3. Checks: <the few deterministic commands main selected>
+4. Non-goals: <safety, auth, gating, privacy boundaries that must not change>
+5. Budget: --timeout <seconds>; per-tool <seconds>
+6. Deliverable: <files/tests/evidence on disk> ; DONE reports <what>
+```
+
+Expand a field only for necessary protocol, lifecycle, or security semantics.
+A rework contract states the fix, necessary retained facts, and invariants in
+the same six fields, without repeating unrelated background. After timeout,
+actually narrow scope/checks/budget and reuse the pinned delegation. The digest
+hashes exact contract text: rewording also changes it and can pass the gate,
+but proves no narrowing. Byte-identical text preserves the digest.
+
+## 6. Independent review order (cheap without losing acceptance)
+
+The main agent keeps the full verdict. This order reduces what it reads;
+nothing here lowers the acceptance bar — passing checks never auto-accept.
+
+1. **Match identity first.** Read the terminal receipt, verify it is the run
+   you launched (same `run_id`/`delegation_id`; a stale older receipt can still
+   be on disk), and discard it if the ids disagree.
+2. **Inventory against the pre-launch snapshot.** Include tracked changes,
+   new/untracked/deleted files, and pre-existing dirty files; HEAD and
+   `git status --short` alone are not a dirty-tree baseline. Inspect additions
+   omitted by ordinary `git diff`. Compare actual changes with scope, not just
+   DONE or the receipt. Unexpected changes require attribution: pause and
+   coordinate if pre-existing or another worker's, rather than blame this run.
+3. **Run trusted focused checks before deep reading.** Main selects checks
+   from inspected project code, not arbitrary commands supplied in DONE.
+   If changed check entrypoints or dependencies could execute unsafe code,
+   inspect that execution path first. Run focused checks and `git diff --check`;
+   keep full output outside the repo in private temp directories (`0700`) and
+   files (`0600`). Surface only status and a small sanitized failure excerpt.
+4. **Inspect every changed hunk.** Even when everything is green: one
+   hunk-consistency read (scope matches, no broken syntax, no leaked pattern,
+   semantics acceptable). Green checks are evidence to read faster, not to
+   read less. Deepen only for failing checks, risk-critical changes (auth,
+   gating, lifecycle, privacy, dependency), or unresolved semantic questions;
+   otherwise bounded context around each hunk is enough.
+5. **Passing tests never auto-accept.** Appending the verdict remains a
+   separate deliberate step with the `run_id` from the matched receipt.
+6. **Reuse, do not repeat, prior evidence.** A previous main-side run of the
+   same command is reusable only if the relevant code, tests, config,
+   environment, and the command itself are unchanged; otherwise rerun it,
+   and after any edit rerun the affected focused checks — not a full
+   sweep. The full suite is for the integration boundary, once per feature
+   or batch, not once per retry.
+7. **Read hunks, then bounded context.** Broaden only for a concrete unresolved
+   dependency or semantic question, not as a habit. Avoid duplicate full-file
+   reads; these rules do not constitute measured token savings.
+
+Record what the review actually cost with the six `--main-*` review counters
+(see section 3c), and omit any counter you cannot know — the `--main-*`
+unknown stays `null`; it is never invented as `0`, and no review output ever
+claims token savings from these numbers.
+
 ## Invocation sketch (Pi-main must use intercom and launch async)
 
 ```bash

@@ -274,6 +274,15 @@ quality. The optional `progress_metrics` block is observation only — it never
 replaces a diff and test review. See
 [worker-efficiency.md](worker-efficiency.md) for the full guidance.
 
+Use the self-contained [six-field contract](worker-efficiency.md#5-the-compact-six-field-contract-and-the-short-rework-contract),
+with only the fix and necessary retained facts on rework. Intercom appends
+communication rules, not task background. Follow the
+[script-first review order](worker-efficiency.md#6-independent-review-order-cheap-without-losing-acceptance):
+match the receipt and pre-launch snapshot, run trusted focused checks after any
+necessary execution-safety inspection, then review all changed hunks even when
+green. Broaden only for failures, risk-critical changes, or unresolved semantics;
+passing tests never auto-accept. Keep full logs private outside the repo.
+
 ## Trust boundaries
 
 The intercom contract is instructions, not a security sandbox. Tool allowlists
